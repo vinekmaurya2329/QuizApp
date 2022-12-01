@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./quiz.css" class="css">
+</head>
+<body>
+
+
+    <!-- scourboard section -->
+    <div id="scoreboard">
+        <!-- <h2 id="scoure-tittle"> Your Scoure :</h2> -->
+        <h2 id="score"></h2>
+       
+        </div>
+        <h2 id="stat">0</h2>
+        <p id="num"></p>
+
+  
+    <div id="Quiz-countainer">
+        <!-- Question countainer -->
+        <div class="questions">
+            <h2 id="question"></h2>
+            <ol type="A">
+                <li><span id="option0" onclick="calcScore(this)"></span></li>
+                <li><span id="option1" onclick="calcScore(this)"></span></li>
+                <li><span id="option2" onclick="calcScore(this)"></span></li>
+                <li><span id="option3" onclick="calcScore(this)"></span></li>
+            </ol>
+            
+        </div>
+        <div class="buttons">
+            <button type="button" class="next"> Next</button>
+        </div>
+    </div>
+
+
+    <!-- Answer section -->
+    <div id="answerbank">
+      
+        <ol type="1" id="answers">
+
+        </ol>
+        <button type="button" id="back" onclick="backToQuiz()"> Back to Quiz</button>
+
+        <script src="./quiz.js"></script>
+    </div>
+
+
+</body>
+</html>

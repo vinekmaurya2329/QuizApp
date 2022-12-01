@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #Quiz-countainer{
+    background-color:antiquewhite;
+    border: 2px solid gold;
+    border-radius: 10px;
+}
+.next{
+    background-color: skyblue;
+    border: 1px solid blue;
+    border-radius: 10px;
+    padding: 10px 20px;
+    position:relative;
+    left: 93%
+
+}
+.next:hover{
+    font-size: 16px;
+    
+}
+#num{
+    text-align: center;
+    border: 3px solid gold;
+    margin-left: 590px;
+    margin-right: 590px;
+    border-radius: 90%;
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+
+}
+#option0,#option1,#option2,#option3{
+    width: 90%;
+    height: 35px;
+    border: 2px solid gold;
+    border-radius: 10px;
+    background-color: white;
+    padding-right: 30px;
+}
+
+#stat{
+    display: flex;
+    justify-content: flex-start;
+    border: 2px solid green;
+    background-color: lightgreen;
+    border-radius: 10px;
+}
+#back{
+    background-color: skyblue;
+    border: 1px solid blue;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+#back:hover{
+    font-size: 17px;
+}
+#score{
+    /* display: flex; */
+    /* justify-content: flex-start; */
+    border: 1px solid green;
+    background-color: lightgreen;
+    border-radius: 10px;
+}
+    </style>
+</head>
+<body>
+      <!-- scourboard section -->
+<div id="scoreboard">
+    <h2 id="scoure-tittle"> </h2>
+    <h2 id="score"></h2>
+    </div>
+    <h4 id="stat"></h4>
+<p id="num"></p>
+  
+    <div id="Quiz-countainer">
+        <!-- Question countainer -->
+        <div class="questions">
+            <h2 id="question"></h2>
+            <ol type="A">
+                <li><span id="option0" onclick="calcScore(this)"></span></li>
+                <li><span id="option1" onclick="calcScore(this)"></span></li>
+                <li><span id="option2" onclick="calcScore(this)"></span></li>
+                <li><span id="option3" onclick="calcScore(this)"></span></li>
+            </ol>
+            <h4 id="stat"></h4>
+        </div>
+        <div class="buttons">
+            <button type="button" class="next"> Next</button>
+        </div>
+    </div>
+
+  
+    <!-- Answer section -->
+    <div id="answerbank">
+        <h2>Answer :</h2>
+        <ol type="1" id="answers">
+
+        </ol>
+        <button type="button" id="back" onclick="backToQuiz()"> Back to Quiz</button>
+
+        <!-- <script src="./quiz.js"></script> -->
+    </div>
+
+    <script>
+
+var Questionbank = [
+{
+    question: 'The sum of ages of 5 children born at the intervals of 3 years each is 50 years. What is the age of the youngest child?',
+    option: ['8 years','10 years','14 years','none of these'],
+    answer:'8 years'
+},
+{
+    question: 'A father said to his son, "I was as old as you are at the present at the time of your birth". If the father age is 38 years now the sons age five years back was',
+    option: ['14 years','19 years','33 years','35 years'],
+    answer:'14 years'
+},
+{
+    question: 'A is two years older than B who is twice as old as C. If the total of the ages of A, B and C be 27, then how old is B?',
+    option: ['7','8','9','10'],
+    answer:'10'
+},
+{
+    question: 'Present ages of Sameer and Anand are in the ratio of 5 : 4 respectively. Three years hence, the ratio of their ages will become 11 : 9 respectively. What is Anands present age in years?',
+    option: ['24','27','40','45'],
+    answer:'24'
+},
+{
+    question: 'A man is 24 years older than his son. In two years, his age will be twice the age of his son. The present age of his son is:',
+    option: ['14 years','18 years','20 years','22 years'],
+    answer:'22 years'
+},
+{
+    question: 'Six years ago, the ratio of the ages of Kunal and Sagar was 6 : 5. Four years hence, the ratio of their ages will be 11 : 10. What is Sagars age at present?',
+    option: ['16 years','18 years','20 years','22 years'],
+    answer:'16 years'
+},
+{
+    question: 'The sum of the present ages of a father and his son is 60 years. Six years ago, father age was five times the age of the son. After 6 years, son age will be:',
+    option: ['12 years','14 years','18 years','20 years'],
+    answer:'20 years'
+},
+{
+    question: 'At present, the ratio between the ages of Arun and Deepak is 4 : 3. After 6 years, Aruns age will be 26 years. What is the age of Deepak at present ?',
+    option: ['12 years','15 years','19 years and half','21 years'],
+    answer:'15 years'
+},
+{
+    question: 'Sachin is younger than Rahul by 7 years. If their ages are in the respective ratio of 7 : 9, how old is Sachin?',
+    option: ['16 years','18 years','28 years','none of these'],
+    answer:'none of these'
+},
+{
+    question: 'The age of father 10 years ago was thrice the age of his son. Ten years hence, fathers age will be twice that of his son. The ratio of their present ages is:',
+    option: ['5:2','7:3','9:2','13:4'],
+    answer:'7:3'
+},
+
+
+]
+
+
+var question = document.getElementById('question');
+var quizcountainer = document.getElementById('Quiz-countainer');
+var scoreboard = document.getElementById('scoreboard');
+var option0 = document.getElementById('option0');
+var option1 = document.getElementById('option1');
+var option2 = document.getElementById('option2');
+var option3 = document.getElementById('option3');
+var next = document.querySelector('.next');
+var points = document.getElementById('score');
+var span = document.querySelectorAll('span');
+var stat = document.getElementById('stat');
+var i = 0;
+var score = 0;
+
+var num= document.getElementById('num');
+
+
+// function to display questions
+
+
+function displayquestion(){
+    for( var a=0; a<span.length; a++){
+        span[a].style.background='white';
+
+    }
+    question.innerHTML= Questionbank[i].question;
+    num.innerHTML='Q.'+(i+1);
+    option0.innerHTML=Questionbank[i].option[0];
+    option1.innerHTML=Questionbank[i].option[1];
+    option2.innerHTML=Questionbank[i].option[2];
+    option3.innerHTML=Questionbank[i].option[3];
+    stat.innerHTML="Question :"+ ' '+(i+1)+' '+ "of" + ' '+ Questionbank.length;
+
+}
+
+// function to calculate score 
+
+function calcScore(e){
+if(e.innerHTML===Questionbank[i].answer && score<Questionbank.length){
+    score= `Your Score : ${score+1+"<br>"} 
+
+    correct: ${score+1}
+
+`
+
+    document.getElementById(e.id).style.background='limegreen';
+
+}else{
+    document.getElementById(e.id).style.background='red';
+    
+    
+}
+setTimeout(nextquestion,1500);
+}
+
+// function  to display next question
+
+function nextquestion(){
+    if(i<Questionbank.length-1){
+        i=i+1;
+        displayquestion();
+    }else{
+        points.innerHTML=score+'/'+ Questionbank.length;
+        quizcountainer.style.display='none';
+        scoreboard.style.display='block'
+    }
+}
+
+// click events to next button
+
+next.addEventListener('click',nextquestion);
+
+// back to quiz GamepadButton
+
+function backToQuiz(){
+    location.reload();
+}
+
+
+displayquestion();
+
+
+    </script>
+
+</body>
+</html>

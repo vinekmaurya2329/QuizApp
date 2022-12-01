@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #Quiz-countainer{
+    background-color:antiquewhite;
+    border: 2px solid gold;
+    border-radius: 10px;
+}
+.next{
+    background-color: skyblue;
+    border: 1px solid blue;
+    border-radius: 10px;
+    padding: 10px 20px;
+    position:relative;
+    left: 93%
+
+}
+.next:hover{
+    font-size: 16px;
+    
+}
+#num{
+    text-align: center;
+    border: 3px solid gold;
+    margin-left: 590px;
+    margin-right: 590px;
+    border-radius: 90%;
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+
+}
+#option0,#option1,#option2,#option3{
+    width: 90%;
+    height: 35px;
+    border: 2px solid gold;
+    border-radius: 10px;
+    background-color: white;
+    padding-right: 30px;
+}
+
+#stat{
+    display: flex;
+    justify-content: flex-start;
+    border: 2px solid green;
+    background-color: lightgreen;
+    border-radius: 10px;
+}
+#back{
+    background-color: skyblue;
+    border: 1px solid blue;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+#back:hover{
+    font-size: 17px;
+}
+#score{
+    /* display: flex; */
+    /* justify-content: flex-start; */
+    border: 1px solid green;
+    background-color: lightgreen;
+    border-radius: 10px;
+}
+    </style>
+</head>
+<body>
+     <!-- scourboard section -->
+<div id="scoreboard">
+    <h2 id="scoure-tittle"> </h2>
+    <h2 id="score"></h2>
+    </div>
+    <h4 id="stat"></h4>
+    <p id="num"></p>
+  
+    <div id="Quiz-countainer">
+        <!-- Question countainer -->
+        <div class="questions">
+            <h2 id="question"></h2>
+            <ol type="A">
+                <li><span id="option0" onclick="calcScore(this)"></span></li>
+                <li><span id="option1" onclick="calcScore(this)"></span></li>
+                <li><span id="option2" onclick="calcScore(this)"></span></li>
+                <li><span id="option3" onclick="calcScore(this)"></span></li>
+            </ol>
+            
+        </div>
+        <div class="buttons">
+            <button type="button" class="next"> Next</button>
+        </div>
+    </div>
+
+   
+
+    <!-- Answer section -->
+    <div id="answerbank">
+        <h2>Answer :</h2>
+        <ol type="1" id="answers">
+
+        </ol>
+        <button type="button" id="back" onclick="backToQuiz()"> Back to Quiz</button>
+
+        <!-- <script src="./quiz.js"></script> -->
+    </div>
+
+    
+<script>
+
+    var Questionbank = [
+
+    {
+question:'The cost price of 20 articles is the same as the selling price of x articles. If the profit is 25%, then the value of x is:',
+option:['15','16','18','25'],
+answer:'16'
+    },
+    {
+question:'In a certain store, the profit is 320% of the cost. If the cost increases by 25% but the selling price remains constant, approximately what percentage of the selling price is the profit?',
+option:['30%','70%','100%','250%'],
+answer:'70%'
+    },
+    
+    {
+question:'A vendor bought toffees at 6 for a rupee. How many for a rupee must he sell to gain 20%?',
+option:['3','4','5','6'],
+answer:'5'
+    },
+    {
+question:'The percentage profit earned by selling an article for Rs. 1920 is equal to the percentage loss incurred by selling the same article for Rs. 1280. At what price should the article be sold to make 25% profit?',
+option:['2000','2200','2400','none of these'],
+answer:'2000'
+    },
+    
+    {
+question:'A shopkeeper expects a gain of 22.5% on his cost price. If in a week, his sale was of Rs. 392, what was his profit?',
+option:['18.20','70','72','88.25'],
+answer:'72'
+    },
+    {
+question:'Sam purchased 20 dozens of toys at the rate of Rs. 375 per dozen. He sold each one of them at the rate of Rs. 33. What was his percentage profit?',
+option:['3.5','4.5','5.6','6.5'],
+answer:'5.6'
+    },
+    
+    {
+question:'On selling 17 balls at Rs. 720, there is a loss equal to the cost price of 5 balls. The cost price of a ball is:',
+option:['45','50','55','60'],
+answer:'60'
+    },
+    {
+question:'When a plot is sold for Rs. 18,700, the owner loses 15%. At what price must that plot be sold in order to gain 15%?',
+option:['21000','22000','21500','26000'],
+answer:'21500'
+    },
+    
+    {
+question:'A trader mixes 26 kg of rice at Rs. 20 per kg with 30 kg of rice of other variety at Rs. 36 per kg and sells the mixture at Rs. 30 per kg. His profit percent is:',
+option:['no profit,no loss','5%','8%','10%'],
+answer:'5%'
+    },
+    {
+question:'A person buys a horse for 15 pounds. After one year, he sells it for 20 pounds. After one year, again he buys the same horse at 30 pounds and sells it for 40 pounds. What is the overall profit percent for that person over both the transactions?',
+option:['30.33%','33.33%','35.33%','40.33%'],
+answer:'33.33%'
+    },
+
+
+    ]
+
+
+    var question = document.getElementById('question');
+var quizcountainer = document.getElementById('Quiz-countainer');
+var scoreboard = document.getElementById('scoreboard');
+var option0 = document.getElementById('option0');
+var option1 = document.getElementById('option1');
+var option2 = document.getElementById('option2');
+var option3 = document.getElementById('option3');
+var next = document.querySelector('.next');
+var points = document.getElementById('score');
+var span = document.querySelectorAll('span');
+var stat = document.getElementById('stat');
+var i = 0;
+var score = 0;
+
+var num= document.getElementById('num');
+
+
+// function to display questions
+
+
+function displayquestion(){
+    for( var a=0; a<span.length; a++){
+        span[a].style.background='white';
+
+    }
+    question.innerHTML= Questionbank[i].question;
+    num.innerHTML='Q.'+(i+1);
+    option0.innerHTML=Questionbank[i].option[0];
+    option1.innerHTML=Questionbank[i].option[1];
+    option2.innerHTML=Questionbank[i].option[2];
+    option3.innerHTML=Questionbank[i].option[3];
+    stat.innerHTML="Question :"+ ' '+(i+1)+' '+ "of" + ' '+ Questionbank.length;
+
+}
+
+// function to calculate score 
+
+function calcScore(e){
+if(e.innerHTML===Questionbank[i].answer && score<Questionbank.length){
+    score= `Your Score : ${score+1+"<br>"} 
+
+    correct: ${score+1}
+
+`
+
+    document.getElementById(e.id).style.background='limegreen';
+
+}else{
+    document.getElementById(e.id).style.background='red';
+    
+    
+}
+setTimeout(nextquestion,1500);
+}
+
+// function  to display next question
+
+function nextquestion(){
+    if(i<Questionbank.length-1){
+        i=i+1;
+        displayquestion();
+    }else{
+        points.innerHTML=score+'/'+ Questionbank.length;
+        quizcountainer.style.display='none';
+        scoreboard.style.display='block'
+    }
+}
+
+// click events to next button
+
+next.addEventListener('click',nextquestion);
+
+// back to quiz GamepadButton
+
+function backToQuiz(){
+    location.reload();
+}
+
+
+displayquestion();
+
+
+
+</script>
+
+
+</body>
+</html>
